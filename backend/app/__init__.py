@@ -9,5 +9,7 @@ def create_app(config_class=Config):
     CORS(app)
     from app.api import bp as api
     app.register_blueprint(api)
+    from app.handlers import bp as handlers
+    app.register_blueprint(handlers)
     return app
     

@@ -1,24 +1,11 @@
-FROM python:3.7-slim
+FROM python:3.7
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV PIP_NO_BINARY psycopg2
-ENV FLASK_SKIP_DOTENV 1
-ENV FLASK_APP run.py
+WORKDIR /usr/src
 
-WORKDIR /src
+COPY . .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-ADD requirements.txt requirements.txt
+EXPOSE 8000
 
-RUN apt-get update \
-    && apt-get install -y libpq-dev gcc \
-    && rm -rf /var/lib/apt/lists/* \
-    && pip install --upgrade pip
-
-RUN pip install -r requirements.txt
-
-COPY . /src
-
-EXPOSE 5000
-
-ENTRYPOINT ["./boot.sh"]
+CMD ["gunicorn", "--access-logfile", "docker.logs", "--workers=2", "-b0.0.0.0:5000", "wsgi:app"]
