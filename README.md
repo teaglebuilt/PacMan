@@ -1,5 +1,3 @@
-# flask-vue-spa
-Vue.js SPA served over Flask microframework
 
 <div class="text-center">
   <h1>PAC MAN</h1>
