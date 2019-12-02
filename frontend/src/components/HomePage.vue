@@ -123,7 +123,7 @@ export default {
           console.log(res)
           this.$root.$emit('fillData', res)
         }).catch(e => {
-          console.log(e)
+      console.log(e)
       })
     }
   }

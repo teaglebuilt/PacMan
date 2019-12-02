@@ -13,14 +13,14 @@ export default {
   },
   data () {
     return {
-        loaded: false,
-        datacollection: null
-      }
-    },
-    mounted () {
-      this.$root.$on('fillData', (res) => {
-        this.datacollection = {
-          labels: ["slowest"],
+      loaded: false,
+      datacollection: null
+    }
+  },
+  mounted () {
+    this.$root.$on('fillData', (res) => {
+      this.datacollection = {
+        labels: ["slowest"],
           datasets: [
             {
               label: 'Data One',

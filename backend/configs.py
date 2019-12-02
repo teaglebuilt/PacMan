@@ -18,9 +18,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
-    CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672//"
-    CELERY_BACKEND = "amqp://guest:guest@localhost:5672//"
+    SQLALCHEMY_DATABASE_URI = 'postgresql:///postgres:test123@localhost/pacmandb'
     DB_NAME = "development-db"
     DB_USERNAME = "admin"
     DB_PASSWORD = "example"

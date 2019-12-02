@@ -4,7 +4,7 @@ WORKDIR /frontend
 
 ENV PATH /frontend/node_modules/.bin:$PATH
 
-COPY package.json /app/package.json
+COPY . .
 RUN npm install
 
 CMD ["npm", "run", "serve"]
