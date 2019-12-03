@@ -1,4 +1,5 @@
 import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
@@ -18,7 +19,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql:///postgres:test123@localhost/pacmandb'
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     DB_NAME = "development-db"
     DB_USERNAME = "admin"
     DB_PASSWORD = "example"

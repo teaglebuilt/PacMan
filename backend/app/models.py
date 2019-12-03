@@ -1,10 +1,29 @@
 from app import db
 from sqlalchemy_utils import URLType
-
+from sqlalchemy.dialects.postgresql import JSON
 
 
 class Service(db.Model):
-    uri = db.Column(URLType, nullable=False, unique=True)
+    __tablename__ = 'services'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(URLType, nullable=False, unique=True)
 
     def __repr__(self):
-        return f"Service: {}".format(self.uri)
+        return f"Service: {self.url}"
+
+
+class Result(db.Model):
+    __tablename__ = 'results'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String())
+    total_time = db.Column(db.Integer())
+    result_all = db.Column(JSON)
+
+    def __init__(self, url, result_all):
+        self.url = url
+        self.result_all = result_all
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
