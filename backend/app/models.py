@@ -4,6 +4,7 @@ from sqlalchemy.dialects.postgresql import JSON
 
 
 class Service(db.Model):
+    
     __tablename__ = 'services'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +22,7 @@ class Result(db.Model):
     total_time = db.Column(db.Integer())
     result_all = db.Column(JSON)
 
-    def __init__(self, url, result_all):
+    def __init__(self, url, total_time, result_all):
         self.url = url
         self.result_all = result_all
 

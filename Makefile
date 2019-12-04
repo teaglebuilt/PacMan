@@ -16,3 +16,14 @@ rm-exited-containers:
 .PHONY: up
 up:
 	${DOCKER_COMPOSE} up --build -d
+
+.PHONY: setup
+setup:  
+	up
+	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK}
+	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db-migrate create-tables
+
+.PHONY: migrate
+migrate: build
+	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db migrate
+	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db upgrade

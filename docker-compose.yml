@@ -2,6 +2,15 @@ version: '3'
 
 services:
 
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=testpass
+      - POSTGRES_DB=pacmandb
+      
   frontend:
     image: frontend:latest
     build: ./frontend
@@ -14,12 +23,17 @@ services:
     build: ./backend/
     container_name: backend
     env_file:
-    - ./backend/.env
+      - ./backend/.env
     volumes:
-    - .:/src
+      - .:/src
     ports:
-    - 5000:5000
+      - 5000:5000
+    depends_on:
+      - db
 
+
+volumes:
+  postgres_data:
 
 
 

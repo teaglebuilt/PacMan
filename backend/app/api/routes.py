@@ -16,7 +16,7 @@ def test_endpoint():
     results = Results(time, request_dict)
     response = {
         "objects": request_dict,
-        "total_time": total_time,
+        "total_time": time,
         "slowest": results.slowest(),
         "fastest": results.fastest(),
         "average": results.average_time(),
