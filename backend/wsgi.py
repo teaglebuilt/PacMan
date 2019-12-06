@@ -1,10 +1,12 @@
 from app import create_app, cli, db
 from app.models import Service, Result
 from configs import DevelopmentConfig
-from prometheus_client import make_wsgi_app
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
-app = create_app(DevelopmentConfig)
+app = create_app(os.getenv('APP_SETTINGS'))
 cli.register(app, db)
 
 

@@ -4,6 +4,12 @@ load_dotenv()
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
+db_user = os.getenv('POSTGRES_USER')
+db_pass = os.getenv('POSTGRES_PASSWORD')
+db_name = os.getenv('POSTGRES_DB')
+db_host = os.getenv('POSTGRES_HOST')
+
+
 class Config(object):
     DEBUG = False
     TESTING = False
@@ -29,8 +35,9 @@ class DevelopmentConfig(Config):
 class DockerConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ['POSTGRES_URL']
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@db"
     SESSION_COOKIE_SECURE = False
+
 
 class TestingConfig(Config):
     TESTING = True

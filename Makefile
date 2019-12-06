@@ -18,12 +18,21 @@ up:
 	${DOCKER_COMPOSE} up --build -d
 
 .PHONY: setup
-setup:  
-	up
+setup: up
 	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK}
 	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db-migrate create-tables
+	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db stamp head
+	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db-migrate init
+
 
 .PHONY: migrate
 migrate: build
 	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db migrate
 	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db upgrade
+
+teardown:
+	${DOCKER_COMPOSE} down
+
+
+wipe: 
+	${DOCKER} system prune --all
