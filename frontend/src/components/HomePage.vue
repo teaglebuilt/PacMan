@@ -22,20 +22,30 @@
                 <p class="border ">{{ val }}</p>
               </span>
                 <div v-for="(element, index ) in key" :key="index" class="flex-col flex-2">
-                   <span v-if="index == 'get'" class="border border-green-400 p-2 rounded relative bg-green-600 text-white">{{ index }}</span>
-                   <span v-if="index == 'delete'" class="border border-red-light text-red-dark p-2 rounded relative bg-red-500 text-white">{{ index }}</span>
-                   <span v-if="index == 'post'" class="border border-blue-light p-2 rounded relative bg-blue-500 text-white">{{ index }}</span>
-                   <span v-if="index == 'put'" class="border border-purple-500 bg-purple-600 p-2 rounded relative text-white">{{ index }}</span>
+                   <button @click="toggle(key)" v-if="index == 'get'" class="border border-green-400 p-2 rounded relative bg-green-600 text-white">{{ index }}</button>
+                   <span @click="toggle(key)" v-if="index == 'delete'" class="border border-red-light text-red-dark p-2 rounded relative bg-red-500 text-white">{{ index }}</span>
+                   <span @click="toggle(key)" v-if="index == 'post'" class="border border-blue-light p-2 rounded relative bg-blue-500 text-white">{{ index }}</span>
+                   <span @click="toggle(key)" v-if="index == 'put'" class="border border-purple-500 bg-purple-600 p-2 rounded relative text-white">{{ index }}</span>
                 </div>
-              <button @click="toggle(key)" class="flex-3 pl-2">Open</button>
+                
+              <!-- <button @click="toggle(key)" class="flex-3 pl-2">Open</button> -->
             </div>
             <div v-show="key.isActive" class="mt-1 mb-10 ml-2">
+                <div v-for="element in key" class="flex flex-row">
+                      <p>
+                            {{ element.summary}}
+                      </p>
+                </div>
                   <div class="w-full flex bg-white flex justify-center">
                     <div class="custom-number-input h-10 w-32 ml-4">
                        <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold ml-3">
                        Requests
                        </label>
                        <div class="flex flex-row h-8 w-2/3 rounded-lg relative bg-transparent ml-2 mt-1 bg-gray-400">
+                          <!-- <div v-for="element in key" :key="element">
+                            <p>{{ element.summary }}</p>
+                          </div> -->
+                      
                           <a v-on:click="requests -= 1"class="text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-10 rounded-l cursor-pointer outline-none">
                              <span class="m-auto text-2xl font-thin pl-2">−</span>
                           </a>
@@ -81,16 +91,14 @@
 import axios from 'axios'
 
 export default {
-  mounted() {
-    console.log(process.env)
-  },
   data () {
     return {
       host: "",
       isOpen: false,
       requests: 1,
       concurrency: 1,
-      response: ""
+      response: "",
+      host: ""
     }
   },
   methods: {
@@ -100,6 +108,7 @@ export default {
         body: this.api_uri
       })
     .then(response => {
+      console.log(response)
       let dictionary = response.data.endpoints;
       Object.keys(dictionary).forEach(function(key) { 
           dictionary[key]["isActive"] = false;
@@ -114,13 +123,10 @@ export default {
     toggle: function (item) {
         item.isActive = !item.isActive;
     },
-    decrement: function (e) {
-      console.log(e.target.value)
-    },
     executeTest: function (endpoint) {
         console.log(endpoint, this.requests, this.concurrency)
         axios.post(`${process.env.VUE_APP_API_URL}/load_test`, {
-          url: `https://petstore.swagger.io/v2` + endpoint + `/` + `1`,
+          url: `${this.host}/${endpoint}/${params}`,
           requests: this.requests,
           concurrency: this.concurrency
         }).then(res => {
