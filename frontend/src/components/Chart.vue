@@ -14,38 +14,24 @@ export default {
   data () {
     return {
       loaded: false,
-      datacollection: null
+      datacollection: null,
+      datasets: []
     }
   },
   mounted () {
     this.$root.$on('fillData', (res) => {
+      console.log(res.data.objects.map(obj => obj.request_time))
       this.datacollection = {
-        labels: ["slowest"],
+          labels: [this.getRandomInt(), this.getRandomInt()],
           datasets: [
             {
-              label: 'Data One',
+              label: 'Slowest to Fastest',
               backgroundColor: '#f87979',
-              data: [res.data.average]
-            },
-            {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [res.data.slowest]
+              data: res.data.objects.map(obj => obj.request_time)
             }
           ]
         }
       })
-    },
-    methods: {
-      fillData () {
-        console.log("poop")
-      },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-      }
     }
   }
 </script>
-
-<style>
-</style>

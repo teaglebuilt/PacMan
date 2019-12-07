@@ -79,7 +79,11 @@
 
 <script>
 import axios from 'axios'
+
 export default {
+  mounted() {
+    console.log(process.env)
+  },
   data () {
     return {
       host: "",
@@ -92,7 +96,7 @@ export default {
   methods: {
     handleSubmit() {
       this.host = this.api_uri
-      axios.post(`http://localhost:5000/api/endpoints`, {
+      axios.post(`${process.env.VUE_APP_API_URL}/endpoints`, {
         body: this.api_uri
       })
     .then(response => {
@@ -115,7 +119,7 @@ export default {
     },
     executeTest: function (endpoint) {
         console.log(endpoint, this.requests, this.concurrency)
-        axios.post(`http://localhost:5000/api/load_test`, {
+        axios.post(`${process.env.VUE_APP_API_URL}/load_test`, {
           url: `https://petstore.swagger.io/v2` + endpoint + `/` + `1`,
           requests: this.requests,
           concurrency: this.concurrency
