@@ -14,8 +14,7 @@ export default {
   data () {
     return {
       loaded: false,
-      datacollection: null,
-      datasets: []
+      datacollection: null
     }
   },
   mounted () {

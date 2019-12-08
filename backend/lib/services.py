@@ -50,6 +50,7 @@ class WebService:
 
     def rest_methods(self, uri):
         data = requests.get(uri).json()
+        print(data)
         return data["paths"]
 
     def __call__(self, uri):

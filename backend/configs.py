@@ -41,9 +41,5 @@ class DockerConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-
-    DB_NAME = "development-db"
-    DB_USERNAME = "admin"
-    DB_PASSWORD = "example"
-
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@testdb"
     SESSION_COOKIE_SECURE = False

@@ -33,6 +33,7 @@ def test_endpoint():
 def load_services():
     data = request.json
     url = data['body']
+    print(request.__dict__)
     service_data = service_lib(url)
     try:
         service = Service(
