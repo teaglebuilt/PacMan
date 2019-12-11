@@ -12,6 +12,8 @@ services:
       - 5000:5000
     depends_on:
       - db
+    networks:
+      - pacman
 
   frontend:
     image: frontend:latest
@@ -27,6 +29,47 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - pacman
+
+  dbadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=devenv@aol.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+    links:
+      - db
+    depends_on:
+      - db
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - 5050:80
+    networks:
+      - pacman
+
+  nginx:
+    image: nginx
+    build: ./NGINX
+    container_name: NGINX
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    networks:
+      - pacman
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  postgres_data:
+  pgadmin:
+
+networks:
+  pacman:
+    driver: bridge
+
 
 
 
