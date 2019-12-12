@@ -1,10 +1,8 @@
 import pytest
 import asyncio
-from app import create_app
+from app import create_app, db
 from configs import TestingConfig
 
-
-TEST_DB = 'sqlite:///:memory:'
 
 @pytest.fixture
 def app():
@@ -30,16 +28,4 @@ def db(app):
 def loop():
     return asyncio.get_event_loop()
 
-
-# @pytest.fixture
-# def module_client(scope='module'):
-#     Config.SQLALCHEMY_DATABASE_URI = TEST_DB
-#     Config.TESTING = True
-#     app = create_app(Config)
-#     test_client = app.test_client()
-#     ctx = app.app_context()
-#     ctx.push()
-
-#     yield test_client
-#     ctx.pop()
 

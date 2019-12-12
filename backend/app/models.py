@@ -25,6 +25,7 @@ class Result(db.Model):
     def __init__(self, url, total_time, result_all):
         self.url = url
         self.result_all = result_all
+        self.total_time = total_time
 
     def __repr__(self):
-        return '<id {}>'.format(self.id)
+        return '<Result for: {} with total: {}>'.format(self.url, self.total_time)
