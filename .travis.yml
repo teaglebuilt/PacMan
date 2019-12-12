@@ -6,7 +6,7 @@ matrix:
       before_script:
         - export FLASK_APP="$TRAVIS_BUILD_DIR/backend/wsgi.py"
         - export FLASK_DEBUG=1
-        - export APP_SETTINGS=configs.DevelopmentConfig
+        - export APP_SETTINGS=configs.TestingConfig
         - pip install -r requirements.txt
       script:
         - pytest
