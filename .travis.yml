@@ -1,13 +1,14 @@
 matrix:
   include:
     - language: python
-      python: 3.7
+      python: 
+        - 3.7
       before_script:
-        - cd backend
-      env:
-        - FLASK_APP=wsgi.py
-      script:
+        - export FLASK_APP="$TRAVIS_BUILD_DIR/backend/wsgi.py"
+        - export FLASK_DEBUG=1
+        - export APP_SETTINGS=configs.DevelopmentConfig
         - pip install -r requirements.txt
+      script:
         - pytest
       
     
