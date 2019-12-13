@@ -26,7 +26,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/pacmandb"
     DB_NAME = "development-db"
     DB_USERNAME = "admin"
     DB_PASSWORD = "example"
