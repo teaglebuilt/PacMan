@@ -42,5 +42,6 @@ class DockerConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/testdb"
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SESSION_COOKIE_SECURE = False
+

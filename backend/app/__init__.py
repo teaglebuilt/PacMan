@@ -5,10 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
-
 db = SQLAlchemy()
-
-
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder=None)
@@ -18,6 +15,7 @@ def create_app(config_class=Config):
     migrate = Migrate(app, db)
     manager = Manager(app)
     manager.add_command('db', MigrateCommand)
+    migrate.init_app(app, db)
     from app.api import bp as api
     app.register_blueprint(api)
     from app.handlers import bp as handlers

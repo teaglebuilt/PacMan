@@ -4,7 +4,7 @@ from tests import conftest
 
 
 
-def test_service(db):
+def test_service():
     service = Service(
         url='https://petstore.swagger.io/v2/swagger.json'
     )
@@ -12,7 +12,7 @@ def test_service(db):
     assert (str(service) == "Service: https://petstore.swagger.io/v2/swagger.json")
 
 
-def test_result(db):
+def test_result():
     result = Result(
         url="https://petstore.swagger.io/v2/1",
         total_time=2.1969270360000053,

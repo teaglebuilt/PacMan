@@ -34,5 +34,15 @@ teardown:
 	${DOCKER_COMPOSE} down
 
 
-wipe: 
+wipe: teardown
 	${DOCKER} system prune --all
+
+
+test:
+	${DOCKER_COMPOSE} up -d 
+	${DOCKER_COMPOSE} run ${API_CONTAINER} ${FLASK} db-migrate create-tables
+	${DOCKER_COMPOSE} run ${API_CONTAINER} pytest
+
+
+
+
