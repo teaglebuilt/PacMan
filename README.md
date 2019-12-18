@@ -4,6 +4,9 @@
   <p>Integrating Vue & Flask</p>
 </div>
 
+![Github CI](https://github.com/teaglebuilt/PacMan/workflows/Docker%20Test/badge.svg)
+![Tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fteaglebuilt%2FPacMan%2F
+)
 
 ## Dependencies
 
