@@ -1,14 +1,17 @@
 
-<div class="text-center">
-  <h1>PAC MAN</h1>
-  <p>Integrating Vue & Flask</p>
+<div align="center">
+  <h1 style="margin-bottom: 0;">Pac > Man</h1>
+  <p style="margin-top: 1em; margin-bottom: 1em; font-size: large;">Swagger & Load Testing in One</p>
+    <img src="https://github.com/teaglebuilt/PacMan/workflows/Docker%20Test/badge.svg">
+    <img src="https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fteaglebuilt%2FPacMan%2F">
+  <div>
+    <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/flask.jpg" width="200">
+    <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/vue.png" width="200">
+  </div>
 </div>
 
-![Flask](https://github.com/teaglebuilt/PacMan/blob/master/static/flask.jpg){ height="36px" width="36px" }
-![Vue](https://github.com/teaglebuilt/PacMan/blob/master/static/vue.png){ height="36px" width="36px" }
 
-![Github CI](https://github.com/teaglebuilt/PacMan/workflows/Docker%20Test/badge.svg)
-![Tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fteaglebuilt%2FPacMan%2F)
+
 
 
 ## Dependencies
