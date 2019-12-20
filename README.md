@@ -5,7 +5,7 @@
     <img src="https://github.com/teaglebuilt/PacMan/workflows/Docker%20Test/badge.svg">
     <img src="https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fteaglebuilt%2FPacMan%2F">
   <div>
-    <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/flask.jpg" width="200">
+    <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/flask.jpg" width="400">
     <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/vue.png" width="200">
   </div>
 </div>
