@@ -2,15 +2,14 @@
 <div class="text-center">
   <h1>PAC MAN</h1>
   <p>Integrating Vue & Flask</p>
-  <div class="flex">
-    <img src="https://github.com/teaglebuilt/PacMan/tree/master/static/flask.jpg" />
-    <img src="https://github.com/teaglebuilt/PacMan/tree/master/static/vue.png" />
-  </div>
 </div>
 
+![Flask](https://github.com/teaglebuilt/PacMan/blob/master/static/flask.jpg)
+![Vue](https://github.com/teaglebuilt/PacMan/blob/master/static/vue.png)
+
 ![Github CI](https://github.com/teaglebuilt/PacMan/workflows/Docker%20Test/badge.svg)
-![Tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fteaglebuilt%2FPacMan%2F
-)
+![Tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fteaglebuilt%2FPacMan%2F)
+
 
 ## Dependencies
 
