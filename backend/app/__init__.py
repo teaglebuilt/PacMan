@@ -20,6 +20,8 @@ def create_app(config_class=Config):
     app.register_blueprint(api)
     from app.handlers import bp as handlers
     app.register_blueprint(handlers)
+    from app.decorators import bp as decorators
+    app.register_blueprint(decorators)
     from app.models import Service
     return app
     
