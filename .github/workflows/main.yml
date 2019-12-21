@@ -11,8 +11,6 @@ jobs:
         uses: actions/checkout@master
       - name: Build the Stack
         run: docker-compose up -d
-      - name: Create Database
-        run: docker-compose run backend flask db-migrate create-tables
       - name: Test
         run: docker-compose run backend pytest
       - name: Teardown
