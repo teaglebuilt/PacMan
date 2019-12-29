@@ -1,11 +1,11 @@
 
 <div align="center">
-  <h1 style="margin-bottom: 0;">Pac > Man</h1>
+<img src="https://github.com/teaglebuilt/PacMan/blob/master/static/vue.png" width="400" style="margin-bottom: 0;">
   <p style="margin-top: 1em; margin-bottom: 1em; font-size: large;">Swagger & Load Testing in One</p>
     <img src="https://github.com/teaglebuilt/PacMan/workflows/Docker%20Test/badge.svg">
     <img src="https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fteaglebuilt%2FPacMan%2F">
   <div>
-    <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/flask.png" width="400">
+    <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/flask.png" width="300">
     <img src="https://github.com/teaglebuilt/PacMan/blob/master/static/vue.png" width="200">
   </div>
 </div>
