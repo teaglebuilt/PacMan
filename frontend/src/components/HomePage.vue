@@ -8,14 +8,14 @@
                 <input type="url" v-model="api_uri" class="shadow border rounded py-2 px-3 text-grey-darker w-full">
                 <button type="submit" class="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Load</button>
             </form>
-            <ul v-if="errors && errors.length">
+            <!-- <ul v-if="errors && errors.length">
               <li v-for="error of errors">
                   {{error.message}}
               </li>
-          </ul>
+          </ul> -->
         </div>
         <div>
-        <ul v-for="(key, val) in response">
+        <ul v-for="(key, val) in response" :key="key.operationId">
           <li :class="{ activeclass: key.isActive }">
             <div class="flex justify-content justify-around mb-4 items-center border border-gray-500 shadow p-4 m-4">
               <span class="flex-1 font-medium font-mono pr-6 text-grey-darkest text-left">
@@ -24,17 +24,27 @@
                 <div v-for="(element, index ) in key" :key="index" class="flex-col flex-2">
                    <button @click="toggle(key)" v-if="index == 'get'" class="border border-green-400 p-2 rounded relative bg-green-600 text-white">{{ index }}</button>
                    <span @click="toggle(key)" v-if="index == 'delete'" class="border border-red-light text-red-dark p-2 rounded relative bg-red-500 text-white">{{ index }}</span>
-                   <span @click="toggle(key)" v-if="index == 'post'" class="border border-blue-light p-2 rounded relative bg-blue-500 text-white">{{ index }}</span>
-                   <span @click="toggle(key)" v-if="index == 'put'" class="border border-purple-500 bg-purple-600 p-2 rounded relative text-white">{{ index }}</span>
+                   <span @click="toggle(key, index)" v-if="index == 'post'" class="border border-blue-light p-2 rounded relative bg-blue-500 text-white">{{ index }}</span>
+                   <span @click="toggle(key, index)" v-if="index == 'put'" class="border border-purple-500 bg-purple-600 p-2 rounded relative text-white">{{ index }}</span>
                 </div>
                 
               <!-- <button @click="toggle(key)" class="flex-3 pl-2">Open</button> -->
             </div>
             <div v-show="key.isActive" class="mt-1 mb-10 ml-2">
-                <div v-for="element in key" class="flex flex-row">
-                      <p>
-                            {{ element.summary}}
-                      </p>
+                <div v-for="element in key" :key="element" class="flex flex-row">
+                  <div class="flex flex-col">
+                      <h2 class="font-semibold font-mono">{{ element.operationId }}</h2>
+                      <div class="p-1 font-hairline text-sm">
+                            {{ element.consumes }}
+                      </div>
+                      <div v-for="node in element.parameters" :key="node.description" class="p-1 flex flex-col font-hairline text-sm">
+                            <h4 class="font-medium">description</h4>
+                            <span>{{ node.description }}</span>
+                            <h4 class="font-medium text-red-600">is required: <span class="text-green-700">{{ node.required }}</span></h4>
+                            <span>{{ node.schema }}</span>
+                      </div>
+                      
+                  </div>
                 </div>
                   <div class="w-full flex bg-white flex justify-center">
                     <div class="custom-number-input h-10 w-32 ml-4">
@@ -46,7 +56,7 @@
                             <p>{{ element.summary }}</p>
                           </div> -->
                       
-                          <a v-on:click="requests -= 1"class="text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-10 rounded-l cursor-pointer outline-none">
+                          <a v-on:click="requests -= 1" class="text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-10 rounded-l cursor-pointer outline-none">
                              <span class="m-auto text-2xl font-thin pl-2">−</span>
                           </a>
                             {{ requests }}
@@ -93,7 +103,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      host: "",
+      api_uri: "https://petstore.swagger.io/v2/swagger.json",
       isOpen: false,
       requests: 1,
       concurrency: 1,
@@ -103,7 +113,6 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.host = this.api_uri
       axios.post(`${process.env.VUE_APP_API_URL}/endpoints`, {
         body: this.api_uri
       })
@@ -120,7 +129,9 @@ export default {
       this.errors.push(e)
     })
     },
-    toggle: function (item) {
+    toggle: function (item, index) {
+      console.log(item, "item", index)
+
         item.isActive = !item.isActive;
     },
     executeTest: function (endpoint) {
