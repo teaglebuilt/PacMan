@@ -1,9 +1,7 @@
 from datetime import datetime, timedelta
-from functools import wraps
-from flask import request, jsonify
+from flask import request, jsonify, make_response, session
 from .exceptions import PasswordMatchError
 from lib.services import WebService
-from app.decorators.auth import check_for_token
 from app.handlers.queue import entrypoint
 from app.handlers.calculate import Results
 from app.decorators.debugger import Debugger
@@ -16,33 +14,6 @@ import jwt
 service_lib = WebService()
 Debugger.enabled = True
 
-
-@check_for_token
-@bp.route('/api/register', methods=['POST'])
-def register():
-    data = request.json
-    email = data['email']
-    username = data['username']
-    password = data['password']
-    confirm_pw = data['confirm_password']
-    if password == confirm_pw:
-        "TODO create user w/ User model <<<<<"
-        return jsonify({'message': 'Welcome {}! You are now registered and redirected to login with your account.'})
-    elif password != confirm_pw:
-        return "error"
-    else:
-        raise Exception(request.json)
-    
-
-@check_for_token
-def login():
-    if request.form['username'] and request.form['password'] == 'password':
-        session['logged_in'] = True
-    token = jwt.encode({
-        'user': request.form['username'],
-        'exp': datetime.datetime.now() + timedelta(seconds=60)
-    }, app.config['SECRET_KEY'])
-    
 
 @bp.route('/api/load_test', methods=['POST'])
 def test_endpoint():
@@ -76,8 +47,8 @@ def load_services():
         )
         db.session.add(service)
         db.session.commit()
-    except:
-        print("error")
+    except Exception as e:
+        print(f"error {e}")
         
     response = {
         'endpoints': service_data

@@ -61,7 +61,8 @@ export default {
         executeTest: function () {
         console.log(this.parameter, this.host, this.address)
         axios.post(`${process.env.VUE_APP_API_URL}/load_test`, {
-          url: `${this.host}/${this.address}/${this.parameter}`,
+          url: `${this.host}/${this.address}`,
+          data: this.parameter,
           requests: 2,
           concurrency: 4
         }).then(res => {

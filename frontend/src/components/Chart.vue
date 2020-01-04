@@ -21,7 +21,6 @@ export default {
     this.$root.$on('fillData', (res) => {
       console.log(res.data.objects.map(obj => obj.request_time))
       this.datacollection = {
-          labels: [this.getRandomInt(), this.getRandomInt()],
           datasets: [
             {
               label: 'Slowest to Fastest',
