@@ -19,74 +19,22 @@
           <li :class="{ activeclass: key.isActive }">
             <div class="flex justify-content justify-around mb-4 items-center border border-gray-500 shadow p-4 m-4">
               <span class="flex-1 font-medium font-mono pr-6 text-grey-darkest text-left">
-                <p class="border ">{{ val }}</p>
+                <p class="border">{{ val }}</p>
               </span>
-                <div v-for="(element, index ) in key" :key="index" class="flex-col flex-2">
-                   <button @click="toggle(key)" v-if="index == 'get'" class="border border-green-400 p-2 rounded relative bg-green-600 text-white">{{ index }}</button>
-                   <span @click="toggle(key)" v-if="index == 'delete'" class="border border-red-light text-red-dark p-2 rounded relative bg-red-500 text-white">{{ index }}</span>
-                   <span @click="toggle(key, index)" v-if="index == 'post'" class="border border-blue-light p-2 rounded relative bg-blue-500 text-white">{{ index }}</span>
-                   <span @click="toggle(key, index)" v-if="index == 'put'" class="border border-purple-500 bg-purple-600 p-2 rounded relative text-white">{{ index }}</span>
-                </div>
                 
-              <!-- <button @click="toggle(key)" class="flex-3 pl-2">Open</button> -->
+              <button @click="toggle(key, val)" class="flex-3 pl-2">Open</button>
             </div>
             <div v-show="key.isActive" class="mt-1 mb-10 ml-2">
-                <div v-for="element in key" :key="element" class="flex flex-row">
-                  <div class="flex flex-col">
-                      <h2 class="font-semibold font-mono">{{ element.operationId }}</h2>
-                      <div class="p-1 font-hairline text-sm">
-                            {{ element.consumes }}
-                      </div>
-                      <div v-for="node in element.parameters" :key="node.description" class="p-1 flex flex-col font-hairline text-sm">
-                            <h4 class="font-medium">description</h4>
-                            <span>{{ node.description }}</span>
-                            <h4 class="font-medium text-red-600">is required: <span class="text-green-700">{{ node.required }}</span></h4>
-                            <span>{{ node.schema }}</span>
-                      </div>
-                      
+                  <div v-for="(element, index ) in key" :key="index" class="flex-col flex-2">
+                    <button @click="toggledata(element, index)" v-if="index == 'get'" class="border border-green-400 p-2 rounded relative bg-green-600 text-white">{{ index }}</button>
+                    <button @click="toggledata(element, index)" v-else-if="index == 'delete'" class="border border-red-light text-red-dark p-2 rounded relative bg-red-500 text-white">{{ index }}</button>
+                    <button @click="toggledata(element, index)" v-else-if="index == 'post'" class="border border-purple-500 bg-green-600 p-2 rounded relative text-white">{{ index }}</button>
+                    <button @click="toggledata(element, index)" v-else-if="index == 'put'" class="border border-purple-500 bg-purple-600 p-2 rounded relative text-white">{{ index }}</button>
                   </div>
-                </div>
-                  <div class="w-full flex bg-white flex justify-center">
-                    <div class="custom-number-input h-10 w-32 ml-4">
-                       <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold ml-3">
-                       Requests
-                       </label>
-                       <div class="flex flex-row h-8 w-2/3 rounded-lg relative bg-transparent ml-2 mt-1 bg-gray-400">
-                          <!-- <div v-for="element in key" :key="element">
-                            <p>{{ element.summary }}</p>
-                          </div> -->
-                      
-                          <a v-on:click="requests -= 1" class="text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-10 rounded-l cursor-pointer outline-none">
-                             <span class="m-auto text-2xl font-thin pl-2">−</span>
-                          </a>
-                            {{ requests }}
-                          <a v-on:click="requests += 1" class="text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-10 rounded-r cursor-pointer">
-                            <span class="m-auto text-xl font-thin pr-2 float-right">+</span>
-                          </a>
-                       </div>
-                    </div>
-                    <div class="h-10 w-32 ml-4">
-                       <label class="w-full text-gray-700 text-sm font-semibold">
-                       Concurrency
-                       </label>
-                       <div class="flex flex-row h-8 w-2/3 rounded-lg relative bg-transparent mt-1 bg-gray-400">
-                          <a v-on:click="concurrency -= 1" class="text-gray-600 h-full w-10 outline-none pl-2">
-                             <span class="m-auto text-2xl font-thin">−</span>
-                          </a>
-                          {{ concurrency }}
-                          <a @click="concurrency += 1" class="text-gray-600 h-full w-10 cursor-pointer">
-                            <span class="m-auto text-xl font-thin float-right pr-2">+</span>
-                          </a>
-                       </div>
-                    </div>
-                    <div class="flex mt-5">
-                      <div class="mx-2">
-                        <button @click="executeTest(val)"
-                          class="w-32 bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-blue-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-                          <span class="mx-auto">Start</span>
-                        </button>
+                  <div v-show="endpoint.open" class="flex flex-row">
+                     <div class="flex flex-col">
+                        <Endpoint :address="endpoint_addr" :host="api_uri" :endpoint="endpoint" />
                       </div>
-                   </div>
                   </div>
             </div>
           </li>
@@ -99,16 +47,30 @@
 
 <script>
 import axios from 'axios'
+import Endpoint from './Endpoint.vue'
+
 
 export default {
+  components: {
+    Endpoint
+  },
   data () {
     return {
       api_uri: "https://petstore.swagger.io/v2/swagger.json",
-      isOpen: false,
       requests: 1,
       concurrency: 1,
       response: "",
-      host: ""
+      endpoint_addr: "",
+      endpoint: {
+        consumes: [],
+        description: "",
+        parameters: [],
+        produces: [],
+        responses: {},
+        security: [],
+        summary: "",
+        open: false
+      }
     }
   },
   methods: {
@@ -121,6 +83,14 @@ export default {
       let dictionary = response.data.endpoints;
       Object.keys(dictionary).forEach(function(key) { 
           dictionary[key]["isActive"] = false;
+          Object.entries(dictionary[key]).forEach(([key, value]) => {
+            if(value === false){
+              return false
+            }
+            else {
+              value["open"] = false
+            }
+          });
         });
         this.response = dictionary
     })
@@ -129,10 +99,21 @@ export default {
       this.errors.push(e)
     })
     },
-    toggle: function (item, index) {
-      console.log(item, "item", index)
-
-        item.isActive = !item.isActive;
+    toggledata(e, i){
+      console.log(e, i)
+      this.endpoint.consumes = e.consumes
+      this.endpoint.description = e.description
+      this.endpoint.parameters = e.parameters
+      this.endpoint.produces = e.produces
+      this.endpoint.responses = e.responses
+      this.endpoint.security = e.security
+      this.endpoint.summary = e.summary
+      this.endpoint.open = e.open
+      e.open = !e.open
+    },
+    toggle: function (item, addr) {
+      item.isActive = !item.isActive;
+      this.endpoint_addr = addr
     },
     executeTest: function (endpoint) {
         console.log(endpoint, this.requests, this.concurrency)

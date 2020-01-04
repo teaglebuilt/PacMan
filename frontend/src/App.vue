@@ -57,6 +57,7 @@
 <script>
 import HomePage from './components/HomePage.vue'
 import Chart from './components/Chart.vue'
+import Endpoint from './components/Endpoint.vue'
 
 
 export default {
