@@ -26,6 +26,10 @@ https://petstore.swagger.io/v2/swagger.json
 
 ## Build Setup
 
+### Important
+Make sure APP_SETTINGS variable in .ENV File is set to config.DockerConfig...
+This controls the host database connection between localhost and docker.
+
 ####  With Docker
 
 ```
