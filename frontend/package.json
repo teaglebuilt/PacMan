@@ -11,10 +11,11 @@
     "axios": "^0.19.0",
     "chart.js": "^2.9.3",
     "core-js": "^3.4.3",
+    "serialize-javascript": ">=2.1.1",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.5.0",
     "vue-loader": "^15.7.2",
-    "serialize-javascript": ">=2.1.1"
+    "vue-multiselect": "^2.1.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",

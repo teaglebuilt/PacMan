@@ -18,6 +18,7 @@ Debugger.enabled = True
 @bp.route('/api/load_test', methods=['POST'])
 def test_endpoint():
     data = request.json
+    print(data)
     time, request_dict = entrypoint(data["url"], int(data["requests"]), int(data["concurrency"]))
     results = Results(time, request_dict)
     response = {

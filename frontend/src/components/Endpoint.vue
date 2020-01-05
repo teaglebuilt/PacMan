@@ -1,12 +1,10 @@
 <template>
     <div>
         <h2 class="font-bold text-center mb-4">{{ endpoint.summary }}</h2>
-        <div>
-            <h5>{{ endpoint.parameters }}</h5>
-            <input type="number" v-if="endpoint.parameters.type == integer" />
-        </div>
+
         <h4 class="font-semibold font-mono">Parameters</h4>
-        <div v-if="endpoint.parameters.length > 0">
+        <input type="number" v-if="endpoint.parameters.type == 'integer'" />
+        <div v-else-if="endpoint.parameters.length > 1">
             <form @submit.prevent="executeTest()">
                 <div v-for="(param, index) in endpoint.parameters" :key="index">
                     <h5 class="text-red-600">Required: {{ param.required }}</h5>
@@ -21,10 +19,21 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
-        <div v-else class="border border-gray-400 mb-2" v-for="(key, index) in endpoint.parameters" :key="index">
+        <div v-else class="mb-2" v-for="(key, index) in endpoint.parameters" :key="index">
             <p class="p-1"><span class="font-semibold">Description: </span>{{ key["description"] }}</p>
-            <p class="p-1"><span class="font-semibold">Schema: </span>{{ key["format"] }}</p>
-            <p class="p-1"><span class="font-semibold">Schema: </span>{{ key["body"] }}</p>
+            <div v-if="key.collectionFormat == 'multi'" v-bind:options="key.items.enum">
+                <form @submit.prevent="executeOptions()">
+                    <multiselect
+                        v-model="selected"
+                        :options="options"
+                        @select="onSelect"
+                        >
+                    </multiselect>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <!-- <p class="p-1"><span class="font-semibold">Schema:</span>{{ key["format"] }}</p>
+            <p class="p-1"><span class="font-semibold">Schema:</span>{{ key["body"] }}</p> -->
         </div>
         <h4 class="font-semibold font-mono">Responses</h4>
         <div class="border border-gray-400 bor" v-for="(key, val) in endpoint.responses" :key="val">
@@ -35,7 +44,7 @@
 
 <script>
 import axios from 'axios'
-
+import Multiselect from 'vue-multiselect'
 
 export default {
     props: {
@@ -52,8 +61,11 @@ export default {
             required: true
         }
     },
+    components: { Multiselect },
     data() {
         return {
+            selected: null,
+            options: [],
             parameter: ""
         }
     },
@@ -71,7 +83,27 @@ export default {
         }).catch(e => {
       console.log(e)
       })
+    },
+    executeOptions() {
+        console.log(this.options)
+        axios.post(`${process.env.VUE_APP_API_URL}/load_test`, {
+          url: `${this.host}/${this.address}`,
+          data: this.options,
+          requests: 2,
+          concurrency: 4
+        }).then(res => {
+          console.log(res)
+          this.$root.$emit('fillData', res)
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    onSelect (option) {
+        console.log(option)
+        this.options.push(option)
     }
   }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
