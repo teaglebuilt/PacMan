@@ -51,4 +51,4 @@ wcwidth==0.1.7
 Werkzeug==0.16.0
 zeep==3.4.0
 zipp==0.6.0
-PyJWT==1.7.1
+PyJWT==2.4.0
